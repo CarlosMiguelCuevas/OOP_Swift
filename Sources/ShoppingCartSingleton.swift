@@ -1,7 +1,12 @@
-class ShoppingCartSingleton {
+public class ShoppingCartSingleton {
+    
     nonisolated(unsafe) static var sharedInstance: ShoppingCartSingleton?
     var productList: [Product] = []
 
+    private init() {
+        self.productList = []
+    }
+    
     public class func getInstance() -> ShoppingCartSingleton {
         if(sharedInstance == nil){
             sharedInstance = ShoppingCartSingleton()
@@ -9,21 +14,22 @@ class ShoppingCartSingleton {
         return sharedInstance!
     }
     
-    func addProduct(_ product: Product, quantity: Int = 1) {
+    public func addProduct(_ product: Product, quantity: Int = 1) {
         if let index = findProductIndex(product.getName()) {
             productList[index].updateQuantity(productList[index].getQuantity() + quantity)
         } else {
+            product.updateQuantity(quantity)
             productList.append(product)
         }
     }
     
-    func totallyRemoveProductFromCart(_ product: Product) {
+    public func totallyRemoveProductFromCart(_ product: Product) {
         if let index = findProductIndex(product.getName()) {
             productList.remove(at: index)
         }
     }
     
-    func removeProductFromCart(_ product: Product, quantity: Int = 1) {
+    public func removeProductFromCart(_ product: Product, quantity: Int = 1) {
         if let index = findProductIndex(product.getName()) {
             if productList[index].getQuantity() <= quantity {
                 totallyRemoveProductFromCart(product)
@@ -34,14 +40,14 @@ class ShoppingCartSingleton {
         }
     }
     
-    func clearCart() {
+    public func clearCart() {
         productList.removeAll()
     }
     
-    func getTotalPrice() -> Double {
+    public func getTotalPrice() -> Double {
         var total: Double = 0
         for product in productList {
-            total = product.getPrice() * Double(product.getQuantity())
+            total += product.getPrice() * Double(product.getQuantity())
         }
         return total
     }

@@ -4,7 +4,7 @@ public class Product{
     private var price: Double
     private var quantity: Int
     
-    init(name:String, price:Double){
+    public init(name:String, price:Double){
         self.name = name
         self.price = price
         self.quantity = 1
