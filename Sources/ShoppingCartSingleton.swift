@@ -1,7 +1,8 @@
 public class ShoppingCartSingleton {
     
     nonisolated(unsafe) static var sharedInstance: ShoppingCartSingleton?
-    var productList: [Product] = []
+    private var productList: [Product] = []
+    private var discountStategy: DiscountStrategy?
 
     private init() {
         self.productList = []
@@ -49,7 +50,14 @@ public class ShoppingCartSingleton {
         for product in productList {
             total += product.getPrice() * Double(product.getQuantity())
         }
+        
+       total = discountStategy?.applyDiscount(total) ?? total
+        
         return total
+    }
+    
+    public func setDiscountStrategy(_ strategy: DiscountStrategy?) {
+        self.discountStategy = strategy
     }
     
     private func findProductIndex(_ productName: String) -> Int? {

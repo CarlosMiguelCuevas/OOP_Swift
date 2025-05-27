@@ -15,3 +15,7 @@ shopingCart.addProduct(product5,quantity: 9)
 
 
 shopingCartCopy.getTotalPrice()
+
+shopingCartCopy.setDiscountStrategy(PercentageDiscountStrategy(50))
+
+shopingCart.getTotalPrice()
